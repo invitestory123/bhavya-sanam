@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Bhavya &amp; Sanyam • Wedding Invitation</title>
+  <meta name="description" content="Together with their families, Bhavya & Sanyam joyfully invite you to celebrate their auspicious wedding festivities on 26th November 2026." />
+  
+  <!-- Open Graph metadata -->
+  <meta property="og:title" content="Bhavya & Sanyam • Wedding Invitation" />
+  <meta property="og:description" content="Two Souls • Seven Sacred Vows • One Eternal Journey of Love" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="images/couple_arch.png" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Great+Vibes&family=Montserrat:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/main.css" />
+</head>
+<body>
+
+  <!-- Fullscreen Particle Canvas for Tap Blessings -->
+  <canvas id="blessingPetalsCanvas"></canvas>
+
+  <div class="page-wrapper">
+    <div class="invite-container">
+      
+      <!-- Continuous Ambient Petals Canvas -->
+      <canvas id="ambientCanvas"></canvas>
+
+      <!-- Top Floral Corners -->
+      <img src="images/corner_floral_left.png" alt="Floral Corner" class="floral-corner floral-corner-tl" />
+      <img src="images/corner_floral_right.png" alt="Floral Corner" class="floral-corner floral-corner-tr" />
+
+      <!-- =================================================================
+           SECTION 1: DIVINE BLESSINGS (MAHARAJ JI CARD)
+           ================================================================= -->
+      <section class="section-blessing" id="sectionBlessing">
+        <div class="maharaj-card">
+          <div class="maharaj-card-inner">
+            <img src="images/maharaj_ji_card.png" alt="With the Divine Blessings of Param Poojya Sadgurudev Shri Sudhanshu Ji Maharaj" />
+          </div>
+        </div>
+
+        <!-- Gold Flourish Divider -->
+        <div class="ornament-divider">
+          <svg viewBox="0 0 160 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 10H70M90 10H150" stroke="#C5A059" stroke-width="1" stroke-linecap="round"/>
+            <path d="M80 3C82 6 85 8 88 10C85 12 82 14 80 17C78 14 75 12 72 10C75 8 78 6 80 3Z" fill="#C5A059"/>
+            <circle cx="68" cy="10" r="1.5" fill="#C5A059"/>
+            <circle cx="92" cy="10" r="1.5" fill="#C5A059"/>
+          </svg>
+        </div>
+      </section>
+
+      <!-- =================================================================
+           SECTION 2: COUPLE WELCOME & INVITATION TEXT
+           ================================================================= -->
+      <section class="section-intro" id="sectionIntro">
+        <div class="couple-names">
+          <h1 class="couple-first-name">Bhavya</h1>
+          <span class="couple-ampersand">&amp;</span>
+          <h1 class="couple-second-name">Sanyam</h1>
+        </div>
+
+        <h2 class="sacred-vows-subtitle">Two Souls &bull; Seven Sacred Vows</h2>
+        <p class="eternal-journey-quote">One Eternal Journey of Love</p>
+
+        <p class="family-invite-text">
+          Together with their families, Bhavya &amp; Sanyam joyfully invite you and your family to grace the auspicious wedding celebrations and bestow your heartfelt blessings as they begin their sacred journey together.
+        </p>
+
+        <!-- Gold Flourish Divider -->
+        <div class="ornament-divider">
+          <svg viewBox="0 0 160 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 10H70M90 10H150" stroke="#C5A059" stroke-width="1" stroke-linecap="round"/>
+            <path d="M80 3C82 6 85 8 88 10C85 12 82 14 80 17C78 14 75 12 72 10C75 8 78 6 80 3Z" fill="#C5A059"/>
+            <circle cx="68" cy="10" r="1.5" fill="#C5A059"/>
+            <circle cx="92" cy="10" r="1.5" fill="#C5A059"/>
+          </svg>
+        </div>
+      </section>
+
+      <!-- =================================================================
+           SECTION 3: COUNTDOWN TIMER & SCRATCH CARD
+           ================================================================= -->
+      <section class="section-countdown" id="sectionCountdown">
+        <h2 class="section-title">The Celebration Begins In</h2>
+
+        <div class="countdown-grid">
+          <div class="countdown-box">
+            <span class="countdown-num" id="cdDays">49</span>
+            <span class="countdown-label">DAYS</span>
+          </div>
+          <span class="countdown-colon">:</span>
+          <div class="countdown-box">
+            <span class="countdown-num" id="cdHours">04</span>
+            <span class="countdown-label">HOURS</span>
+          </div>
+          <span class="countdown-colon">:</span>
+          <div class="countdown-box">
+            <span class="countdown-num" id="cdMins">43</span>
+            <span class="countdown-label">MINS</span>
+          </div>
+          <span class="countdown-colon">:</span>
+          <div class="countdown-box">
+            <span class="countdown-num" id="cdSecs">38</span>
+            <span class="countdown-label">SECS</span>
+          </div>
+        </div>
+
+        <!-- Scratch Card Box -->
+        <div class="scratch-card-wrapper">
+          <div class="scratch-box">
+            <!-- Revealed Layer -->
+            <div class="scratch-revealed">
+              <h3 class="revealed-date">Thursday, 26 Nov 2026</h3>
+              <p class="revealed-venue">Rivaya by Zion (Formerly Crossroad Banquets)</p>
+            </div>
+            <!-- Canvas Layer (Rose Gold Foil) -->
+            <canvas id="scratchCanvas"></canvas>
+          </div>
+
+          <!-- Instruction Pill (Before reveal) -->
+          <div class="scratch-info-pill" id="scratchInfoPill" title="Click or scratch to reveal">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M15 4V2m0 16v-2m6-6h-2M4 12H2m15.5 5.5l-1.5-1.5m-9-9L5.5 5.5m0 13l1.5-1.5m9-9l1.5-1.5"/>
+            </svg>
+            <span>Scratch the soft foil to reveal wedding day</span>
+          </div>
+
+          <!-- Auspicious Day Badge (After reveal) -->
+          <div class="auspicious-pill" id="auspiciousPill" style="display: none;">
+            <span>&hearts; Auspicious Day &bull; Thursday, 26 Nov 2026</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- =================================================================
+           SECTION 4: THE BEAUTIFUL COUPLE & BLESSINGS SHOWER
+           ================================================================= -->
+      <section class="section-couple" id="sectionCouple">
+        <h2 class="section-title">The Beautiful Couple</h2>
+
+        <!-- Gold Flourish Divider -->
+        <div class="ornament-divider">
+          <svg viewBox="0 0 160 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 10H70M90 10H150" stroke="#C5A059" stroke-width="1" stroke-linecap="round"/>
+            <path d="M80 3C82 6 85 8 88 10C85 12 82 14 80 17C78 14 75 12 72 10C75 8 78 6 80 3Z" fill="#C5A059"/>
+            <circle cx="68" cy="10" r="1.5" fill="#C5A059"/>
+            <circle cx="92" cy="10" r="1.5" fill="#C5A059"/>
+          </svg>
+        </div>
+
+        <p class="couple-quote">
+          &ldquo;Destined by the stars, united by seven sacred vows &amp; eternal love&rdquo;
+        </p>
+
+        <!-- Arched Photo Frame -->
+        <div class="arch-frame-container">
+          <div class="arch-frame-inner">
+            <img src="images/couple_arch.png" alt="Bhavya & Sanyam" />
+          </div>
+        </div>
+
+        <h3 class="couple-names-small">Bhavya &amp; Sanyam</h3>
+        <p class="couple-tagline">Two Hearts &bull; One Soul &bull; Forever</p>
+
+        <!-- Interactive Blessing Button -->
+        <div class="blessing-btn-container">
+          <button type="button" class="blessing-shower-btn" id="blessingShowerBtn">
+            <div class="btn-left">
+              <span>&hearts;</span>
+              <span>Shower Petals &amp; Blessings</span>
+            </div>
+            <div class="btn-badge" id="blessingCountBadge">452 SHOWERED</div>
+          </button>
+          <p class="blessing-caption">Tap to shower soft rose petals &amp; gentle stardust over the couple</p>
+        </div>
+      </section>
+
+      <!-- =================================================================
+           SECTION 5: WEDDING ITINERARY & TIMELINE
+           ================================================================= -->
+      <section class="section-timeline" id="sectionTimeline">
+        <div class="timeline-tree">
+          <div class="timeline-stem"></div>
+
+          <!-- Pre-Wedding / Evening Events -->
+          <div class="timeline-event-row left-aligned">
+            <div class="timeline-card">
+              <h4 class="timeline-title">Engagement</h4>
+              <p class="timeline-time">6:30 PM</p>
+            </div>
+            <div class="timeline-node"></div>
+          </div>
+
+          <div class="timeline-event-row right-aligned">
+            <div class="timeline-node"></div>
+            <div class="timeline-card">
+              <h4 class="timeline-title">Sangeet</h4>
+              <p class="timeline-time">8:00 PM</p>
+            </div>
+          </div>
+
+          <div class="timeline-event-row left-aligned">
+            <div class="timeline-card">
+              <h4 class="timeline-title">Dinner</h4>
+              <p class="timeline-time">9:00 PM</p>
+            </div>
+            <div class="timeline-node"></div>
+          </div>
+
+          <!-- Date Divider with Rose Icon -->
+          <div class="timeline-date-divider">
+            <div class="divider-line"></div>
+            <div class="date-pill-wrap">
+              <img src="images/rose_icon_clean.png" alt="Rose" class="date-rose-img" />
+              <div class="date-pill">26th November 2026</div>
+            </div>
+          </div>
+
+          <!-- Wedding Attire Etiquette Box -->
+          <div class="attire-etiquette-card">
+            <div class="attire-badge">&#9733; Wedding Attire Etiquette</div>
+            <p class="attire-text">
+              We kindly request our beloved guests to <strong>avoid wearing shades of red or maroon</strong> for the wedding ceremony, as red is traditionally reserved for the bride.
+            </p>
+          </div>
+
+          <!-- Wedding Day Events -->
+          <div class="timeline-event-row left-aligned">
+            <div class="timeline-card">
+              <h4 class="timeline-title">Baraat Swagat</h4>
+              <p class="timeline-time">11:00 AM</p>
+            </div>
+            <div class="timeline-node"></div>
+          </div>
+
+          <div class="timeline-event-row right-aligned">
+            <div class="timeline-node"></div>
+            <div class="timeline-card">
+              <h4 class="timeline-title">Jaimala Ceremony</h4>
+              <p class="timeline-time">11:30 AM</p>
+            </div>
+          </div>
+
+          <div class="timeline-event-row left-aligned">
+            <div class="timeline-card">
+              <h4 class="timeline-title">Royal Lunch</h4>
+              <p class="timeline-time">1:00 PM</p>
+            </div>
+            <div class="timeline-node"></div>
+          </div>
+
+          <div class="timeline-event-row right-aligned">
+            <div class="timeline-node"></div>
+            <div class="timeline-card">
+              <h4 class="timeline-title">Sacred Pheras</h4>
+              <p class="timeline-time">3:00 PM</p>
+            </div>
+          </div>
+
+          <div class="timeline-event-row left-aligned">
+            <div class="timeline-card">
+              <h4 class="timeline-title">Doli &amp; Vidai</h4>
+              <p class="timeline-time">6:00 PM</p>
+            </div>
+            <div class="timeline-node"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =================================================================
+           SECTION 6: WEDDING VENUE & NAVIGATION
+           ================================================================= -->
+      <section class="section-venue" id="sectionVenue">
+        <h2 class="section-title">The Wedding Venue</h2>
+
+        <!-- Gold Flourish Divider -->
+        <div class="ornament-divider">
+          <svg viewBox="0 0 160 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 10H70M90 10H150" stroke="#C5A059" stroke-width="1" stroke-linecap="round"/>
+            <path d="M80 3C82 6 85 8 88 10C85 12 82 14 80 17C78 14 75 12 72 10C75 8 78 6 80 3Z" fill="#C5A059"/>
+            <circle cx="68" cy="10" r="1.5" fill="#C5A059"/>
+            <circle cx="92" cy="10" r="1.5" fill="#C5A059"/>
+          </svg>
+        </div>
+
+        <p class="venue-subtitle">Rivaya by Zion (Formerly Crossroad Banquets) &bull; 26th November 2026</p>
+
+        <!-- Palace Mandap Illustration Card -->
+        <div class="venue-palace-card">
+          <img src="images/venue_palace.png" alt="Royal Wedding Mandap Venue" />
+        </div>
+
+        <h3 class="venue-main-title">Rivaya by Zion (Formerly Crossroad Banquets)</h3>
+        <p class="venue-location-tag">&#128205; Grand Wedding Celebrations &bull; Delhi-NCR</p>
+
+        <!-- Google Maps Navigation Widget Box -->
+        <div class="maps-box-wrapper">
+          <div class="maps-box-header">
+            <div class="left-title">
+              <span>&#128506;&#65039;</span>
+              <span>Google Maps Navigation</span>
+            </div>
+            <a href="https://maps.google.com/?q=Crossroads+Banquets+Conventions+Sohna+Road+Gurgaon" target="_blank" rel="noopener noreferrer" class="right-link">
+              <span>Open Map</span>
+              <span>&#8599;</span>
+            </a>
+          </div>
+          <div class="maps-iframe-container">
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14044.896752003848!2d77.0422!3d28.3582!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d220ea181e42b%3A0xc3b8384260aa7016!2sCrossroads%20Banquets%20%26%20Conventions!5e0!3m2!1sen!2sin!4v1710000000000!5m2!1sen!2sin" 
+              allowfullscreen="" 
+              loading="lazy" 
+              referrerpolicy="no-referrer-when-downgrade"
+              title="Venue Location Map">
+            </iframe>
+          </div>
+        </div>
+
+        <!-- Venue Navigation Action Buttons -->
+        <div class="venue-actions">
+          <a href="https://maps.google.com/?q=Crossroads+Banquets+Conventions+Sohna+Road+Gurgaon" target="_blank" rel="noopener noreferrer" class="btn-pill-action btn-directions">
+            <span>&#10148;</span>
+            <span>Get Directions</span>
+          </a>
+
+          <button type="button" class="btn-pill-action btn-calendar" id="btnAddToCalendar">
+            <span>&#128197;</span>
+            <span>Add to Calendar</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- =================================================================
+           SECTION 7: FOOTER & WARM COMPLIMENTS
+           ================================================================= -->
+      <footer class="section-footer">
+        <!-- Gold Flourish Divider -->
+        <div class="ornament-divider">
+          <svg viewBox="0 0 160 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 10H70M90 10H150" stroke="#C5A059" stroke-width="1" stroke-linecap="round"/>
+            <path d="M80 3C82 6 85 8 88 10C85 12 82 14 80 17C78 14 75 12 72 10C75 8 78 6 80 3Z" fill="#C5A059"/>
+            <circle cx="68" cy="10" r="1.5" fill="#C5A059"/>
+            <circle cx="92" cy="10" r="1.5" fill="#C5A059"/>
+          </svg>
+        </div>
+        <p class="footer-quote">With Love &amp; Blessings</p>
+        <p class="footer-sub">We Look Forward to Celebrating With You</p>
+      </footer>
+
+    </div><!-- /.invite-container -->
+  </div><!-- /.page-wrapper -->
+
+  <!-- Floating Audio Player Button -->
+  <div class="floating-audio-btn" id="floatingAudioBtn" title="Toggle Background Music">
+    <div class="audio-icon-wrap">
+      <!-- Pause Icon -->
+      <svg id="audioIconPause" viewBox="0 0 24 24" style="display: none;">
+        <rect x="6" y="4" width="4" height="16" rx="1.5"></rect>
+        <rect x="14" y="4" width="4" height="16" rx="1.5"></rect>
+      </svg>
+      <!-- Play Icon -->
+      <svg id="audioIconPlay" viewBox="0 0 24 24" style="display: block;">
+        <polygon points="6,4 20,12 6,20"></polygon>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Background Music Audio Tag -->
+  <audio id="bgAudio" loop preload="auto">
+    <source src="media/music.mp3" type="audio/mp3">
+  </audio>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
