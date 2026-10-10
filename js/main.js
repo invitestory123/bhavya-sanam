@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initAmbientPetals();
   initAudioPlayer();
   initCalendarAction();
+  initTimelineLotusTracker();
 });
 
 /* ==========================================================================
@@ -555,4 +556,136 @@ function initCalendarAction() {
     link.click();
     document.body.removeChild(link);
   }
+}
+
+/* ==========================================================================
+   7. Dynamic Scrolling Lotus in Schedule of Events
+   Moves smoothly down the stem ONLY when scrolling through the Schedule of Events
+   ========================================================================== */
+function initTimelineLotusTracker() {
+  const tracker = document.getElementById('timelineLotusTracker');
+  const section = document.getElementById('sectionTimeline');
+  const stem = document.getElementById('timelineStem');
+  const rows = Array.from(document.querySelectorAll('.timeline-event-row'));
+
+  if (!tracker || !section || !stem || rows.length === 0) return;
+
+  function getNodeCenterY(node) {
+    if (!node) return 0;
+    const nodeRect = node.getBoundingClientRect();
+    const tree = section.querySelector('.timeline-tree');
+    if (!tree) return 0;
+    const treeRect = tree.getBoundingClientRect();
+    return (nodeRect.top + nodeRect.height / 2) - treeRect.top;
+  }
+
+  function updateStemBounds() {
+    const firstNode = rows[0].querySelector('.timeline-node');
+    const lastNode = rows[rows.length - 1].querySelector('.timeline-node');
+    if (firstNode && lastNode) {
+      const topY = getNodeCenterY(firstNode);
+      const botY = getNodeCenterY(lastNode);
+      stem.style.top = `${topY}px`;
+      stem.style.height = `${Math.max(0, botY - topY)}px`;
+    }
+  }
+
+  function updatePosition() {
+    const firstNode = rows[0].querySelector('.timeline-node');
+    const lastNode = rows[rows.length - 1].querySelector('.timeline-node');
+    if (!firstNode || !lastNode) return;
+
+    const topY = getNodeCenterY(firstNode);
+    const botY = getNodeCenterY(lastNode);
+    const totalSpan = botY - topY;
+
+    // Trigger line at viewport center (50% of window height)
+    const triggerY = window.innerHeight * 0.5;
+    const firstScreenY = firstNode.getBoundingClientRect().top + firstNode.offsetHeight / 2;
+    const lastScreenY = lastNode.getBoundingClientRect().top + lastNode.offsetHeight / 2;
+    const screenSpan = lastScreenY - firstScreenY;
+
+    let progress = 0;
+    if (screenSpan > 0) {
+      progress = (triggerY - firstScreenY) / screenSpan;
+    }
+    // Strictly clamp progress between 0 and 1 so lotus only moves within Schedule of Events
+    progress = Math.max(0, Math.min(1, progress));
+
+    const currentY = topY + progress * totalSpan;
+    tracker.style.top = `${currentY}px`;
+
+    // Highlight closest event node
+    let closestRow = null;
+    let minDistance = Infinity;
+
+    rows.forEach(row => {
+      const node = row.querySelector('.timeline-node');
+      if (node) {
+        const nodeY = getNodeCenterY(node);
+        const dist = Math.abs(currentY - nodeY);
+        if (dist < minDistance) {
+          minDistance = dist;
+          closestRow = row;
+        }
+
+        if (currentY >= nodeY - 15) {
+          row.classList.add('active');
+        } else {
+          row.classList.remove('active');
+        }
+      }
+    });
+
+    rows.forEach(r => r.classList.remove('active-current'));
+    if (closestRow && minDistance < 45) {
+      closestRow.classList.add('active-current', 'active');
+    }
+  }
+
+  let ticking = false;
+  function onScroll() {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        updatePosition();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', () => {
+    updateStemBounds();
+    updatePosition();
+  }, { passive: true });
+
+  setTimeout(() => {
+    updateStemBounds();
+    updatePosition();
+  }, 200);
+
+  // Click on any event to glide lotus to it smoothly
+  rows.forEach((row, idx) => {
+    row.style.cursor = 'pointer';
+    row.addEventListener('click', () => {
+      const firstNode = rows[0].querySelector('.timeline-node');
+      const lastNode = rows[rows.length - 1].querySelector('.timeline-node');
+      if (!firstNode || !lastNode) return;
+      const topY = getNodeCenterY(firstNode);
+      const botY = getNodeCenterY(lastNode);
+      const totalSpan = botY - topY;
+      const targetProgress = rows.length > 1 ? idx / (rows.length - 1) : 0;
+      const targetY = topY + targetProgress * totalSpan;
+
+      tracker.style.transition = 'top 0.4s cubic-bezier(0.25, 1, 0.5, 1)';
+      tracker.style.top = `${targetY}px`;
+      setTimeout(() => {
+        tracker.style.transition = 'top 0.08s ease-out';
+      }, 450);
+
+      rows.forEach(r => r.classList.remove('active-current'));
+      row.classList.add('active-current', 'active');
+    });
+  });
 }
