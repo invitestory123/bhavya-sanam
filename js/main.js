@@ -10,6 +10,7 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+  initWaxSealOpening();
   initCountdown();
   initScratchCard();
   initBlessingShower();
@@ -488,6 +489,11 @@ function initAudioPlayer() {
 
   // Attempt auto-play on first tap or scroll anywhere on document
   function firstInteraction() {
+    // If opening overlay is visible, let the wax seal video play its audio without clash
+    const overlay = document.getElementById('waxOpeningOverlay');
+    if (overlay && !overlay.classList.contains('is-closing') && !overlay.classList.contains('is-hidden')) {
+      return;
+    }
     if (!isPlaying) {
       playAudio();
     }
@@ -496,9 +502,9 @@ function initAudioPlayer() {
     window.removeEventListener('scroll', firstInteraction);
   }
 
-  window.addEventListener('click', firstInteraction, { once: true });
-  window.addEventListener('touchstart', firstInteraction, { once: true });
-  window.addEventListener('scroll', firstInteraction, { once: true });
+  window.addEventListener('click', firstInteraction, { passive: true });
+  window.addEventListener('touchstart', firstInteraction, { passive: true });
+  window.addEventListener('scroll', firstInteraction, { passive: true });
 }
 
 /* ==========================================================================
@@ -560,94 +566,133 @@ function initCalendarAction() {
 
 /* ==========================================================================
    7. Dynamic Scrolling Lotus in Schedule of Events
-   Moves smoothly down the stem ONLY when scrolling through the Schedule of Events
+   Supports two independent schedule trees (25th Nov & 26th Nov)
+   Each schedule has its own separate stem and scrolling flower tracker!
    ========================================================================== */
 function initTimelineLotusTracker() {
-  const tracker = document.getElementById('timelineLotusTracker');
-  const section = document.getElementById('sectionTimeline');
-  const stem = document.getElementById('timelineStem');
-  const rows = Array.from(document.querySelectorAll('.timeline-event-row'));
+  const trees = Array.from(document.querySelectorAll('.timeline-tree'));
+  if (trees.length === 0) return;
 
-  if (!tracker || !section || !stem || rows.length === 0) return;
+  const treeInstances = [];
 
-  function getNodeCenterY(node) {
-    if (!node) return 0;
-    const nodeRect = node.getBoundingClientRect();
-    const tree = section.querySelector('.timeline-tree');
-    if (!tree) return 0;
-    const treeRect = tree.getBoundingClientRect();
-    return (nodeRect.top + nodeRect.height / 2) - treeRect.top;
-  }
+  trees.forEach((tree) => {
+    const tracker = tree.querySelector('.timeline-lotus-tracker');
+    const stem = tree.querySelector('.timeline-stem');
+    const rows = Array.from(tree.querySelectorAll('.timeline-event-row'));
 
-  function updateStemBounds() {
-    const firstNode = rows[0].querySelector('.timeline-node');
-    const lastNode = rows[rows.length - 1].querySelector('.timeline-node');
-    if (firstNode && lastNode) {
+    if (!tracker || !stem || rows.length === 0) return;
+
+    function getNodeCenterY(node) {
+      if (!node) return 0;
+      const nodeRect = node.getBoundingClientRect();
+      const treeRect = tree.getBoundingClientRect();
+      return (nodeRect.top + nodeRect.height / 2) - treeRect.top;
+    }
+
+    function updateStemBounds() {
+      const firstNode = rows[0].querySelector('.timeline-node');
+      const lastNode = rows[rows.length - 1].querySelector('.timeline-node');
+      if (firstNode && lastNode) {
+        const topY = getNodeCenterY(firstNode);
+        const botY = getNodeCenterY(lastNode);
+        stem.style.top = `${topY}px`;
+        stem.style.height = `${Math.max(0, botY - topY)}px`;
+      }
+    }
+
+    function updatePosition() {
+      const firstNode = rows[0].querySelector('.timeline-node');
+      const lastNode = rows[rows.length - 1].querySelector('.timeline-node');
+      if (!firstNode || !lastNode) return;
+
       const topY = getNodeCenterY(firstNode);
       const botY = getNodeCenterY(lastNode);
-      stem.style.top = `${topY}px`;
-      stem.style.height = `${Math.max(0, botY - topY)}px`;
-    }
-  }
+      const totalSpan = botY - topY;
 
-  function updatePosition() {
-    const firstNode = rows[0].querySelector('.timeline-node');
-    const lastNode = rows[rows.length - 1].querySelector('.timeline-node');
-    if (!firstNode || !lastNode) return;
+      // Trigger line at viewport center (50% of window height)
+      const triggerY = window.innerHeight * 0.5;
+      const firstScreenY = firstNode.getBoundingClientRect().top + firstNode.offsetHeight / 2;
+      const lastScreenY = lastNode.getBoundingClientRect().top + lastNode.offsetHeight / 2;
+      const screenSpan = lastScreenY - firstScreenY;
 
-    const topY = getNodeCenterY(firstNode);
-    const botY = getNodeCenterY(lastNode);
-    const totalSpan = botY - topY;
-
-    // Trigger line at viewport center (50% of window height)
-    const triggerY = window.innerHeight * 0.5;
-    const firstScreenY = firstNode.getBoundingClientRect().top + firstNode.offsetHeight / 2;
-    const lastScreenY = lastNode.getBoundingClientRect().top + lastNode.offsetHeight / 2;
-    const screenSpan = lastScreenY - firstScreenY;
-
-    let progress = 0;
-    if (screenSpan > 0) {
-      progress = (triggerY - firstScreenY) / screenSpan;
-    }
-    // Strictly clamp progress between 0 and 1 so lotus only moves within Schedule of Events
-    progress = Math.max(0, Math.min(1, progress));
-
-    const currentY = topY + progress * totalSpan;
-    tracker.style.top = `${currentY}px`;
-
-    // Highlight closest event node
-    let closestRow = null;
-    let minDistance = Infinity;
-
-    rows.forEach(row => {
-      const node = row.querySelector('.timeline-node');
-      if (node) {
-        const nodeY = getNodeCenterY(node);
-        const dist = Math.abs(currentY - nodeY);
-        if (dist < minDistance) {
-          minDistance = dist;
-          closestRow = row;
-        }
-
-        if (currentY >= nodeY - 15) {
-          row.classList.add('active');
-        } else {
-          row.classList.remove('active');
-        }
+      let progress = 0;
+      if (screenSpan > 0) {
+        progress = (triggerY - firstScreenY) / screenSpan;
       }
+      // Strictly clamp progress between 0 and 1 so lotus only moves within this specific schedule's events
+      progress = Math.max(0, Math.min(1, progress));
+
+      const currentY = topY + progress * totalSpan;
+      tracker.style.top = `${currentY}px`;
+
+      // Highlight closest event node within this schedule
+      let closestRow = null;
+      let minDistance = Infinity;
+
+      rows.forEach((row) => {
+        const node = row.querySelector('.timeline-node');
+        if (node) {
+          const nodeY = getNodeCenterY(node);
+          const dist = Math.abs(currentY - nodeY);
+          if (dist < minDistance) {
+            minDistance = dist;
+            closestRow = row;
+          }
+
+          if (currentY >= nodeY - 15) {
+            row.classList.add('active');
+          } else {
+            row.classList.remove('active');
+          }
+        }
+      });
+
+      rows.forEach((r) => r.classList.remove('active-current'));
+      if (closestRow && minDistance < 45) {
+        closestRow.classList.add('active-current', 'active');
+      }
+    }
+
+    // Click on any event to glide this schedule's lotus to it smoothly
+    rows.forEach((row, idx) => {
+      row.style.cursor = 'pointer';
+      row.addEventListener('click', () => {
+        const firstNode = rows[0].querySelector('.timeline-node');
+        const lastNode = rows[rows.length - 1].querySelector('.timeline-node');
+        if (!firstNode || !lastNode) return;
+        const topY = getNodeCenterY(firstNode);
+        const botY = getNodeCenterY(lastNode);
+        const totalSpan = botY - topY;
+        const targetProgress = rows.length > 1 ? idx / (rows.length - 1) : 0;
+        const targetY = topY + targetProgress * totalSpan;
+
+        tracker.style.transition = 'top 0.4s cubic-bezier(0.25, 1, 0.5, 1)';
+        tracker.style.top = `${targetY}px`;
+        setTimeout(() => {
+          tracker.style.transition = 'top 0.08s ease-out';
+        }, 450);
+
+        rows.forEach((r) => r.classList.remove('active-current'));
+        row.classList.add('active-current', 'active');
+      });
     });
 
-    rows.forEach(r => r.classList.remove('active-current'));
-    if (closestRow && minDistance < 45) {
-      closestRow.classList.add('active-current', 'active');
-    }
+    treeInstances.push({ updateStemBounds, updatePosition });
+  });
+
+  function updateAllBounds() {
+    treeInstances.forEach((t) => t.updateStemBounds());
+  }
+
+  function updateAllPositions() {
+    treeInstances.forEach((t) => t.updatePosition());
   }
 
   let ticking = false;
   function onScroll() {
     if (!ticking) {
       requestAnimationFrame(() => {
-        updatePosition();
+        updateAllPositions();
         ticking = false;
       });
       ticking = true;
@@ -656,36 +701,121 @@ function initTimelineLotusTracker() {
 
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', () => {
-    updateStemBounds();
-    updatePosition();
+    updateAllBounds();
+    updateAllPositions();
   }, { passive: true });
 
   setTimeout(() => {
-    updateStemBounds();
-    updatePosition();
-  }, 200);
-
-  // Click on any event to glide lotus to it smoothly
-  rows.forEach((row, idx) => {
-    row.style.cursor = 'pointer';
-    row.addEventListener('click', () => {
-      const firstNode = rows[0].querySelector('.timeline-node');
-      const lastNode = rows[rows.length - 1].querySelector('.timeline-node');
-      if (!firstNode || !lastNode) return;
-      const topY = getNodeCenterY(firstNode);
-      const botY = getNodeCenterY(lastNode);
-      const totalSpan = botY - topY;
-      const targetProgress = rows.length > 1 ? idx / (rows.length - 1) : 0;
-      const targetY = topY + targetProgress * totalSpan;
-
-      tracker.style.transition = 'top 0.4s cubic-bezier(0.25, 1, 0.5, 1)';
-      tracker.style.top = `${targetY}px`;
-      setTimeout(() => {
-        tracker.style.transition = 'top 0.08s ease-out';
-      }, 450);
-
-      rows.forEach(r => r.classList.remove('active-current'));
-      row.classList.add('active-current', 'active');
-    });
-  });
+    updateAllBounds();
+    updateAllPositions();
+  }, 250);
 }
+
+/* ==========================================================================
+   8. Wax Seal Opening Envelope Video Intro
+   Plays 1782224012851.mp4 when user taps to open invitation, then reveals site
+   ========================================================================== */
+function initWaxSealOpening() {
+  const overlay = document.getElementById('waxOpeningOverlay');
+  const video = document.getElementById('waxOpeningVideo');
+  const openBtn = document.getElementById('waxOpenBtn');
+  const promptWrap = document.getElementById('waxPromptWrap');
+  const skipBtn = document.getElementById('waxSkipBtn');
+
+  if (!overlay || !video) return;
+
+  let isClosed = false;
+  let isPlayingVideo = false;
+
+  // Prevent background scrolling while opening envelope is displayed
+  document.body.style.overflow = 'hidden';
+
+  function closeOpening() {
+    if (isClosed) return;
+    isClosed = true;
+
+    try {
+      video.pause();
+    } catch (e) {}
+
+    overlay.classList.add('is-closing');
+    document.body.style.overflow = '';
+
+    // Smoothly start wedding background music once the envelope is opened
+    const bgAudio = document.getElementById('bgAudio');
+    const floatingAudioBtn = document.getElementById('floatingAudioBtn');
+    const iconPlay = document.getElementById('audioIconPlay');
+    const iconPause = document.getElementById('audioIconPause');
+    if (bgAudio) {
+      bgAudio.play().then(() => {
+        if (floatingAudioBtn) floatingAudioBtn.classList.add('is-playing');
+        if (iconPause) iconPause.style.display = 'block';
+        if (iconPlay) iconPlay.style.display = 'none';
+      }).catch(() => {
+        // Autoplay permission handled on subsequent tap
+      });
+    }
+
+    setTimeout(() => {
+      overlay.classList.add('is-hidden');
+      // Recalculate timeline bounds and layout once overlay is removed
+      window.dispatchEvent(new Event('resize'));
+    }, 850);
+  }
+
+  function startOpeningAnimation() {
+    if (isPlayingVideo || isClosed) return;
+    isPlayingVideo = true;
+
+    if (promptWrap) promptWrap.classList.add('fade-out');
+
+    // Unmute and play the wax seal crack video
+    video.currentTime = 0;
+    video.muted = false;
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {
+        // Fallback to muted playback if device restricts audio
+        video.muted = true;
+        video.play().catch(() => {});
+      });
+    }
+
+    // When video ends or reaches ~5.7s, transition smoothly into invitation
+    video.addEventListener('ended', () => {
+      closeOpening();
+    }, { once: true });
+
+    video.addEventListener('timeupdate', () => {
+      if (video.duration && video.currentTime >= video.duration - 0.25) {
+        closeOpening();
+      }
+    });
+
+    // Safety fallback timeout (6.5s)
+    setTimeout(() => {
+      if (!isClosed) closeOpening();
+    }, 6500);
+  }
+
+  if (openBtn) {
+    openBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      startOpeningAnimation();
+    });
+  }
+
+  overlay.addEventListener('click', () => {
+    if (!isPlayingVideo) {
+      startOpeningAnimation();
+    }
+  });
+
+  if (skipBtn) {
+    skipBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeOpening();
+    });
+  }
+}
+

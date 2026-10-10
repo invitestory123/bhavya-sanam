@@ -131,7 +131,7 @@ html, body {
    ========================================================================== */
 .section-blessing {
   position: relative;
-  padding: 34px 18px 20px;
+  padding: 68px 18px 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -142,6 +142,7 @@ html, body {
   position: relative;
   width: 100%;
   max-width: 360px;
+  margin-top: 14px;
   background: #FFFFFF;
   border-radius: var(--radius-card);
   box-shadow: 0 16px 40px rgba(184, 120, 135, 0.16), 0 0 0 1px rgba(230, 200, 205, 0.4);
@@ -1077,6 +1078,159 @@ html, body {
   }
 }
 
+/* ==========================================================================
+   Wax Seal Opening Video Overlay
+   ========================================================================== */
+.wax-opening-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(circle at 50% 30%, #FFF8F6 0%, #F5E8E4 60%, #E8D3CD 100%);
+  z-index: 100000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.wax-opening-overlay.is-closing {
+  opacity: 0;
+  transform: scale(1.06);
+  pointer-events: none;
+}
+
+.wax-opening-overlay.is-hidden {
+  display: none !important;
+}
+
+.wax-opening-container {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  height: 100%;
+  max-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.wax-opening-video {
+  width: 100%;
+  height: 100%;
+  max-height: 100vh;
+  object-fit: contain;
+  display: block;
+  background: transparent;
+}
+
+/* Prompt overlay at bottom */
+.wax-prompt-wrap {
+  position: absolute;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  z-index: 10;
+  width: 90%;
+  max-width: 340px;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  pointer-events: auto;
+}
+
+.wax-prompt-wrap.fade-out {
+  opacity: 0;
+  transform: translate(-50%, 15px);
+  pointer-events: none;
+}
+
+.wax-open-btn {
+  background: linear-gradient(135deg, #B85068 0%, #8E3A4E 60%, #6E2235 100%);
+  color: #FFF7F5;
+  border: 1.5px solid #F0CBD3;
+  border-radius: 999px;
+  padding: 13px 28px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(142, 58, 78, 0.35), 0 0 0 4px rgba(240, 203, 211, 0.3);
+  animation: waxBtnGlow 2.4s ease-in-out infinite;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.wax-open-btn:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 14px 35px rgba(142, 58, 78, 0.45), 0 0 0 6px rgba(240, 203, 211, 0.45);
+}
+
+.wax-btn-sparkle {
+  color: #F8D794;
+  font-size: 15px;
+}
+
+@keyframes waxBtnGlow {
+  0%, 100% {
+    box-shadow: 0 10px 30px rgba(142, 58, 78, 0.35), 0 0 0 3px rgba(240, 203, 211, 0.3);
+  }
+  50% {
+    box-shadow: 0 12px 35px rgba(142, 58, 78, 0.5), 0 0 20px rgba(248, 215, 148, 0.5), 0 0 0 6px rgba(240, 203, 211, 0.55);
+  }
+}
+
+.wax-prompt-hint {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 14px;
+  color: #7A4F5B;
+  text-shadow: 0 1px 4px rgba(255, 255, 255, 0.8);
+  text-align: center;
+}
+
+/* Discrete Skip Button */
+.wax-skip-btn {
+  position: absolute;
+  top: 22px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(194, 112, 131, 0.35);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  color: #8E3A4E;
+  cursor: pointer;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  box-shadow: 0 4px 14px rgba(142, 58, 78, 0.12);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.wax-skip-btn:hover {
+  background: #FFFFFF;
+  transform: translateY(-1px);
+}
+
+.timeline-schedule-block {
+  position: relative;
+  width: 100%;
+  margin-bottom: 24px;
+}
+
 /* Responsive tuning */
 @media (max-width: 375px) {
   .couple-first-name,
@@ -1097,3 +1251,5 @@ html, body {
     width: 42%;
   }
 }
+
+

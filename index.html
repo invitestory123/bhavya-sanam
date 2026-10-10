@@ -21,6 +21,36 @@
 </head>
 <body>
 
+  <!-- Wax Seal Envelope Opening Video Overlay -->
+  <div class="wax-opening-overlay" id="waxOpeningOverlay">
+    <div class="wax-opening-container">
+      <video 
+        id="waxOpeningVideo" 
+        class="wax-opening-video"
+        playsinline 
+        webkit-playsinline 
+        preload="auto">
+        <source src="1782224012851.mp4" type="video/mp4" />
+        <source src="media/1782224012851.mp4" type="video/mp4" />
+      </video>
+
+      <!-- Shimmering Tap to Open Button Prompt -->
+      <div class="wax-prompt-wrap" id="waxPromptWrap">
+        <button type="button" class="wax-open-btn" id="waxOpenBtn">
+          <span class="wax-btn-sparkle">✦</span>
+          <span>Tap to Open Invitation</span>
+          <span class="wax-btn-sparkle">✦</span>
+        </button>
+        <p class="wax-prompt-hint">Break the royal wax seal to reveal the celebration</p>
+      </div>
+
+      <!-- Skip Button -->
+      <button type="button" class="wax-skip-btn" id="waxSkipBtn" title="Skip to Invitation">
+        <span>Skip</span> &#10005;
+      </button>
+    </div>
+  </div>
+
   <!-- Fullscreen Particle Canvas for Tap Blessings -->
   <canvas id="blessingPetalsCanvas"></canvas>
 
@@ -188,15 +218,8 @@
         <h2 class="section-title">Schedule of Events</h2>
         <p class="timeline-subtitle">Auspicious Wedding Ceremonies &bull; 25th &amp; 26th November 2026</p>
 
-        <div class="timeline-tree">
-          <div class="timeline-stem" id="timelineStem"></div>
-          <!-- Dynamic Lotus Tracker (moves with scroll in schedule) -->
-          <div class="timeline-lotus-tracker" id="timelineLotusTracker" title="Timeline Tracker">
-            <img src="images/rose_icon_clean.png" alt="Lotus" class="lotus-tracker-img" />
-            <div class="lotus-tracker-pulse"></div>
-          </div>
-
-          <!-- Date Divider: 25th November 2026 -->
+        <!-- Schedule 1: 25th November 2026 -->
+        <div class="timeline-schedule-block" id="scheduleDay1">
           <div class="timeline-date-divider date-divider-first">
             <div class="divider-line"></div>
             <div class="date-pill-wrap">
@@ -204,51 +227,62 @@
             </div>
           </div>
 
-          <!-- Pre-Wedding Events: 25th November -->
-          <div class="timeline-event-row left-aligned event-haldi">
-            <div class="timeline-card haldi-card">
-              <h4 class="timeline-title haldi-title">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="#D48296" style="display:inline-block;vertical-align:-1px;margin-right:4px;"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm0-5c.55 0 1 .45 1 1v2c0 .55-.45 1-1 1s-1-.45-1-1V3c0-.55.45-1 1-1zm0 16c.55 0 1 .45 1 1v2c0 .55-.45 1-1 1s-1-.45-1-1v-2c0-.55.45-1 1-1zm10-7c0 .55-.45 1-1 1h-2c-.55 0-1-.45-1-1s.45-1 1-1h2c.55 0 1 .45 1 1zM7 12c0 .55-.45 1-1 1H4c-.55 0-1-.45-1-1s.45-1 1-1h2c.55 0 1 .45 1 1zm12.07-6.07c.39-.39 1.02-.39 1.41 0 .39.39.39 1.02 0 1.41l-1.41 1.41c-.39.39-1.02.39-1.41 0-.39-.39-.39-1.02 0-1.41l1.41-1.41zM6.34 16.24c.39-.39 1.02-.39 1.41 0 .39.39.39 1.02 0 1.41l-1.41 1.41c-.39.39-1.02.39-1.41 0-.39-.39-.39-1.02 0-1.41l1.41-1.41zm12.73 2.83c-.39-.39-.39-1.02 0-1.41l1.41-1.41c.39-.39 1.02-.39 1.41 0 .39.39.39 1.02 0 1.41l-1.41 1.41c-.39.39-1.02.39-1.41 0zM7.76 6.34c-.39-.39-.39-1.02 0-1.41l1.41-1.41c.39-.39 1.02-.39 1.41 0 .39.39.39 1.02 0 1.41L7.76 6.34z"/></svg>Haldi
-              </h4>
-              <p class="timeline-time">11:00 AM</p>
-              <div class="haldi-dress-code">SHADES OF YELLOW</div>
+          <div class="timeline-tree" data-schedule="1">
+            <div class="timeline-stem"></div>
+            <!-- Dynamic Lotus Tracker 1 (moves with scroll for 25th Nov) -->
+            <div class="timeline-lotus-tracker" title="25th Nov Timeline Tracker">
+              <img src="images/rose_icon_clean.png" alt="Lotus" class="lotus-tracker-img" />
+              <div class="lotus-tracker-pulse"></div>
             </div>
-            <div class="timeline-node haldi-node"></div>
-          </div>
 
-          <div class="timeline-event-row right-aligned">
-            <div class="timeline-node"></div>
-            <div class="timeline-card">
-              <h4 class="timeline-title">Lunch</h4>
-              <p class="timeline-time">1:00 PM</p>
+            <!-- Pre-Wedding Events: 25th November -->
+            <div class="timeline-event-row left-aligned event-haldi">
+              <div class="timeline-card haldi-card">
+                <h4 class="timeline-title haldi-title">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="#D48296" style="display:inline-block;vertical-align:-1px;margin-right:4px;"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm0-5c.55 0 1 .45 1 1v2c0 .55-.45 1-1 1s-1-.45-1-1V3c0-.55.45-1 1-1zm0 16c.55 0 1 .45 1 1v2c0 .55-.45 1-1 1s-1-.45-1-1v-2c0-.55.45-1 1-1zm10-7c0 .55-.45 1-1 1h-2c-.55 0-1-.45-1-1s.45-1 1-1h2c.55 0 1 .45 1 1zM7 12c0 .55-.45 1-1 1H4c-.55 0-1-.45-1-1s.45-1 1-1h2c.55 0 1 .45 1 1zm12.07-6.07c.39-.39 1.02-.39 1.41 0 .39.39.39 1.02 0 1.41l-1.41 1.41c-.39.39-1.02.39-1.41 0-.39-.39-.39-1.02 0-1.41l1.41-1.41zM6.34 16.24c.39-.39 1.02-.39 1.41 0 .39.39.39 1.02 0 1.41l-1.41 1.41c-.39.39-1.02.39-1.41 0-.39-.39-.39-1.02 0-1.41l1.41-1.41zm12.73 2.83c-.39-.39-.39-1.02 0-1.41l1.41-1.41c.39-.39 1.02-.39 1.41 0 .39.39.39 1.02 0 1.41l-1.41 1.41c-.39.39-1.02.39-1.41 0zM7.76 6.34c-.39-.39-.39-1.02 0-1.41l1.41-1.41c.39-.39 1.02-.39 1.41 0 .39.39.39 1.02 0 1.41L7.76 6.34z"/></svg>Haldi
+                </h4>
+                <p class="timeline-time">11:00 AM</p>
+                <div class="haldi-dress-code">SHADES OF YELLOW</div>
+              </div>
+              <div class="timeline-node haldi-node"></div>
+            </div>
+
+            <div class="timeline-event-row right-aligned">
+              <div class="timeline-node"></div>
+              <div class="timeline-card">
+                <h4 class="timeline-title">Lunch</h4>
+                <p class="timeline-time">1:00 PM</p>
+              </div>
+            </div>
+
+            <div class="timeline-event-row left-aligned">
+              <div class="timeline-card">
+                <h4 class="timeline-title">Engagement</h4>
+                <p class="timeline-time">6:30 PM</p>
+              </div>
+              <div class="timeline-node"></div>
+            </div>
+
+            <div class="timeline-event-row right-aligned">
+              <div class="timeline-node"></div>
+              <div class="timeline-card">
+                <h4 class="timeline-title">Sangeet</h4>
+                <p class="timeline-time">8:00 PM</p>
+              </div>
+            </div>
+
+            <div class="timeline-event-row left-aligned">
+              <div class="timeline-card">
+                <h4 class="timeline-title">Dinner</h4>
+                <p class="timeline-time">9:00 PM</p>
+              </div>
+              <div class="timeline-node"></div>
             </div>
           </div>
+        </div>
 
-          <div class="timeline-event-row left-aligned">
-            <div class="timeline-card">
-              <h4 class="timeline-title">Engagement</h4>
-              <p class="timeline-time">6:30 PM</p>
-            </div>
-            <div class="timeline-node"></div>
-          </div>
-
-          <div class="timeline-event-row right-aligned">
-            <div class="timeline-node"></div>
-            <div class="timeline-card">
-              <h4 class="timeline-title">Sangeet</h4>
-              <p class="timeline-time">8:00 PM</p>
-            </div>
-          </div>
-
-          <div class="timeline-event-row left-aligned">
-            <div class="timeline-card">
-              <h4 class="timeline-title">Dinner</h4>
-              <p class="timeline-time">9:00 PM</p>
-            </div>
-            <div class="timeline-node"></div>
-          </div>
-
-          <!-- Date Divider with Rose Icon -->
+        <!-- Schedule 2: 26th November 2026 -->
+        <div class="timeline-schedule-block" id="scheduleDay2">
           <div class="timeline-date-divider">
             <div class="divider-line"></div>
             <div class="date-pill-wrap">
@@ -256,45 +290,54 @@
             </div>
           </div>
 
-          <!-- Wedding Day Events -->
-          <div class="timeline-event-row left-aligned">
-            <div class="timeline-card">
-              <h4 class="timeline-title">Baraat Swagat</h4>
-              <p class="timeline-time">11:00 AM</p>
+          <div class="timeline-tree" data-schedule="2">
+            <div class="timeline-stem"></div>
+            <!-- Dynamic Lotus Tracker 2 (moves with scroll for 26th Nov) -->
+            <div class="timeline-lotus-tracker" title="26th Nov Timeline Tracker">
+              <img src="images/rose_icon_clean.png" alt="Lotus" class="lotus-tracker-img" />
+              <div class="lotus-tracker-pulse"></div>
             </div>
-            <div class="timeline-node"></div>
-          </div>
 
-          <div class="timeline-event-row right-aligned">
-            <div class="timeline-node"></div>
-            <div class="timeline-card">
-              <h4 class="timeline-title">Jaimala Ceremony</h4>
-              <p class="timeline-time">11:30 AM</p>
+            <!-- Wedding Day Events: 26th November -->
+            <div class="timeline-event-row left-aligned">
+              <div class="timeline-card">
+                <h4 class="timeline-title">Baraat Swagat</h4>
+                <p class="timeline-time">11:00 AM</p>
+              </div>
+              <div class="timeline-node"></div>
             </div>
-          </div>
 
-          <div class="timeline-event-row left-aligned">
-            <div class="timeline-card">
-              <h4 class="timeline-title">Royal Lunch</h4>
-              <p class="timeline-time">1:00 PM</p>
+            <div class="timeline-event-row right-aligned">
+              <div class="timeline-node"></div>
+              <div class="timeline-card">
+                <h4 class="timeline-title">Jaimala Ceremony</h4>
+                <p class="timeline-time">11:30 AM</p>
+              </div>
             </div>
-            <div class="timeline-node"></div>
-          </div>
 
-          <div class="timeline-event-row right-aligned">
-            <div class="timeline-node"></div>
-            <div class="timeline-card">
-              <h4 class="timeline-title">Sacred Pheras</h4>
-              <p class="timeline-time">3:00 PM</p>
+            <div class="timeline-event-row left-aligned">
+              <div class="timeline-card">
+                <h4 class="timeline-title">Royal Lunch</h4>
+                <p class="timeline-time">1:00 PM</p>
+              </div>
+              <div class="timeline-node"></div>
             </div>
-          </div>
 
-          <div class="timeline-event-row left-aligned">
-            <div class="timeline-card">
-              <h4 class="timeline-title">Doli &amp; Vidai</h4>
-              <p class="timeline-time">6:00 PM</p>
+            <div class="timeline-event-row right-aligned">
+              <div class="timeline-node"></div>
+              <div class="timeline-card">
+                <h4 class="timeline-title">Sacred Pheras</h4>
+                <p class="timeline-time">3:00 PM</p>
+              </div>
             </div>
-            <div class="timeline-node"></div>
+
+            <div class="timeline-event-row left-aligned">
+              <div class="timeline-card">
+                <h4 class="timeline-title">Doli &amp; Vidai</h4>
+                <p class="timeline-time">6:00 PM</p>
+              </div>
+              <div class="timeline-node"></div>
+            </div>
           </div>
         </div>
       </section>
