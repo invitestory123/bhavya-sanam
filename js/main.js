@@ -1,12 +1,12 @@
 /**
- * Bhavya & Sanyam Wedding Invitation - Interactive Logic
+ * Bhavya and Sanyam Wedding Invitation - Interactive Logic
  * Features:
- *  - HTML5 Canvas Scratch Card with Rose Gold Foil & Sparkles
+ *  - HTML5 Canvas Scratch Card with Rose Gold Foil and Sparkles
  *  - Live Wedding Countdown Timer (Target: Nov 26, 2026)
- *  - Petal & Stardust Blessing Particle Shower with Counter
+ *  - Petal and Stardust Blessing Particle Shower with Counter
  *  - Continuous Ambient Petal Drift
  *  - Floating Audio Player with Auto-Play on interaction
- *  - Add to Calendar (.ics & Google Calendar)
+ *  - Add to Calendar (.ics and Google Calendar)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -517,8 +517,8 @@ function initCalendarAction() {
   calBtn.addEventListener('click', (e) => {
     e.preventDefault();
 
-    const title = encodeURIComponent('Bhavya & Sanyam Wedding Celebration');
-    const details = encodeURIComponent('Together with their families, Bhavya & Sanyam joyfully invite you to celebrate their auspicious wedding festivities.');
+    const title = encodeURIComponent('Bhavya and Sanyam Wedding Celebration');
+    const details = encodeURIComponent('Together with their families, Bhavya and Sanyam joyfully invite you to celebrate their auspicious wedding festivities.');
     const location = encodeURIComponent('Rivaya by Zion (Formerly Crossroad Banquets), Sohna Road, Delhi-NCR');
     
     // Nov 26, 2026: 11:00 AM to 11:00 PM IST (UTC: 20261126T053000Z to 20261126T173000Z)
@@ -539,14 +539,14 @@ function initCalendarAction() {
     const icsContent = [
       'BEGIN:VCALENDAR',
       'VERSION:2.0',
-      'PRODID:-//Bhavya & Sanyam Wedding//EN',
+      'PRODID:-//Bhavya and Sanyam Wedding//EN',
       'BEGIN:VEVENT',
       'UID:' + Date.now() + '@invitingyou.top',
       'DTSTAMP:20261008T000000Z',
       'DTSTART:20261126T053000Z',
       'DTEND:20261126T173000Z',
-      'SUMMARY:Bhavya & Sanyam Wedding Celebration',
-      'DESCRIPTION:Together with their families\\, Bhavya & Sanyam joyfully invite you to celebrate their auspicious wedding festivities.',
+      'SUMMARY:Bhavya and Sanyam Wedding Celebration',
+      'DESCRIPTION:Together with their families\\, Bhavya and Sanyam joyfully invite you to celebrate their auspicious wedding festivities.',
       'LOCATION:Rivaya by Zion (Formerly Crossroad Banquets)\\, Sohna Road\\, Delhi-NCR',
       'STATUS:CONFIRMED',
       'END:VEVENT',
