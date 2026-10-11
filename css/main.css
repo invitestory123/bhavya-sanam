@@ -428,29 +428,34 @@ html, body {
   letter-spacing: 0.3px;
 }
 
-/* Arched Couple Frame */
+/* Arched Couple Frame - Exactly matching uploaded photo */
 .arch-frame-container {
   position: relative;
   width: 100%;
-  max-width: 340px;
-  margin: 0 auto 20px;
-  border-radius: 170px 170px 18px 18px;
-  padding: 6px;
-  background: linear-gradient(180deg, #D9889A 0%, #B85068 50%, #9B3952 100%);
-  box-shadow: 0 16px 40px rgba(155, 57, 82, 0.22);
+  max-width: 355px;
+  margin: 0 auto 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .arch-frame-inner {
   position: relative;
-  border-radius: 164px 164px 14px 14px;
-  overflow: hidden;
-  background: #FFF;
+  width: 100%;
+  overflow: visible;
+  background: transparent;
 }
 
 .arch-frame-inner img {
   width: 100%;
   height: auto;
   display: block;
+  filter: drop-shadow(0 14px 28px rgba(184, 120, 135, 0.24));
+  transition: transform 0.4s ease;
+}
+
+.arch-frame-inner img:hover {
+  transform: scale(1.015);
 }
 
 .couple-names-small {
